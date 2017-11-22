@@ -1,6 +1,8 @@
 # Name: hashFiles.py
 # Authors: Keiser, Froling, Lunderman
-# Last Revision: 11/11/2017
+
+# Last Revision: 11/20/2017
+
 # Desc: hash all files on an OS and output to a file that will be used with diff
  later
  # tested on: <list os's that have been added to the test list>
@@ -43,12 +45,26 @@ def main():
         outfile = raw_input("Enter an output file path: ") #this is where the hashes go
         while not True:
                 if (os.path.exists(outfile) == True): #check path existance
+
+                        #change to that directory on local machine
+                        #create and open filename for the hashes to be stored in (or text process and take last part of the output file)
+                        #hashes = open(<filename>, a)    
+
                         pass
                 else:
                         outfile = raw_input("Enter an output file path: ")
         name = find_os() # return Unix or Windows
-        for root, directs, files in os.walk():
+
+        if name == "posix":
+            root_dir = "/"
+        else:
+            if name == "Windows":
+                root_dir == "C:\" 
+        for root, directs, files in os.walk(root_dir, topdown=True):
                 for f in files:
                 ret_hash = hashfile(f)
+                #hashes.write(ret_hash)    #write hash of file to the output file
+                
+
 if __name__ == "__main__":
         main()
