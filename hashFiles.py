@@ -16,7 +16,7 @@ from subprocess import call
 
 # name: find_os
 # desc: figures out which os is running on the computer the script is running, to know to iterate through "/" or drives (C:, etc)
-# params: 
+# params:
 # returns: windows or posix
 def find_os():
         name = call(["os.name()"]) # gets the os name (for unix, "posix")
@@ -29,8 +29,24 @@ def find_os():
                 if name == "Windows":
                         return name
 
-# name: hashFile 
-# Desc: hashes a file 
+# name: find_windows_version
+# desc: determines the version of windows that is being run on the current box
+# params: NA
+# returns: window version
+def get_winver():
+    version = ""
+    wv = sys.getwindowsversion()
+    ## Determine the version using windows numbering schema
+    if(wv.major == 6 and wv.minor == 2):
+        version = "WIN_8"
+    elif(wv.major == 6 and wv.minor == 1):
+        version = "WIN_7"
+    elif (wv.major == 10):
+        version = "WIN_10"
+    return version
+
+# name: hashFile
+# Desc: hashes a file
 # params: filename
 # returns: a hash
 def hashfile(filename):
@@ -48,7 +64,7 @@ def main():
 
                         #change to that directory on local machine
                         #create and open filename for the hashes to be stored in (or text process and take last part of the output file)
-                        #hashes = open(<filename>, a)    
+                        #hashes = open(<filename>, a)
 
                         pass
                 else:
@@ -59,12 +75,12 @@ def main():
             root_dir = "/"
         else:
             if name == "Windows":
-                root_dir == "C:\" 
+                root_dir == "C:\"
         for root, directs, files in os.walk(root_dir, topdown=True):
                 for f in files:
                 ret_hash = hashfile(f)
                 #hashes.write(ret_hash)    #write hash of file to the output file
-                
+
 
 if __name__ == "__main__":
         main()
